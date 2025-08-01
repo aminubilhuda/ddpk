@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alur Pembelajaran RPL - Jadwal Mingguan Detail</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .week-divider {
+            position: sticky;
+            top: 0;
+            background-color: rgba(15, 23, 42, 0.8); /* bg-slate-900 with opacity */
+            backdrop-filter: blur(8px);
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-200 antialiased">
+
+    <!-- Container Utama -->
+    <div class="container mx-auto px-4 py-8 md:py-12">
+
+        <!-- Judul Utama -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-2">Jadwal Pembelajaran Mingguan</h1>
+            <p class="text-lg md:text-xl text-sky-400">Dasar Keahlian RPL - Kelas X (Versi Super Detail)</p>
+        </header>
+
+        <!-- Legenda -->
+        <div class="flex flex-wrap justify-center gap-4 mb-12 text-xs">
+            <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-sky-500"></div><span>Jam 1: Sistem Komputer</span></div>
+            <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-teal-500"></div><span>Jam 2: Pemrograman Dasar</span></div>
+            <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-violet-500"></div><span>Jam 3: Dasar Desain Grafis</span></div>
+            <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-amber-500"></div><span>Jam 4: Jaringan Dasar</span></div>
+        </div>
+
+        <!-- Timeline Container -->
+        <div class="space-y-12">
+
+            <!-- Template Minggu -->
+            <div class="week-template">
+                <!-- Divider Minggu -->
+                <div class="week-divider py-4 mb-8">
+                    <h2 class="text-2xl md:text-3xl font-bold text-white text-center">Minggu <span class="week-number">1</span></h2>
+                </div>
+
+                <!-- Grid Materi per Jam -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Jam 1 -->
+                    <div class="bg-slate-800/50 p-5 rounded-xl border border-sky-800">
+                        <div class="flex items-center gap-3 mb-3">
+                            <i data-lucide="cpu" class="w-8 h-8 text-sky-400"></i>
+                            <div>
+                                <h3 class="font-bold text-white">Sistem Komputer</h3>
+                                <p class="text-xs text-sky-400">Jam ke-1</p>
+                            </div>
+                        </div>
+                        <h4 class="font-semibold mb-2">Topik: Orientasi & Konsep IPOS</h4>
+                        <p class="text-sm text-slate-300">Fokus pada siklus Input-Proses-Output-Storage. Identifikasi periferal di lab.</p>
+                    </div>
+                    <!-- Jam 2 -->
+                    <div class="bg-slate-800/50 p-5 rounded-xl border border-teal-800">
+                         <div class="flex items-center gap-3 mb-3">
+                            <i data-lucide="brain-circuit" class="w-8 h-8 text-teal-400"></i>
+                            <div>
+                                <h3 class="font-bold text-white">Pemrograman Dasar</h3>
+                                <p class="text-xs text-teal-400">Jam ke-2</p>
+                            </div>
+                        </div>
+                        <h4 class="font-semibold mb-2">Topik: Apa itu Algoritma?</h4>
+                        <p class="text-sm text-slate-300">Pengenalan logika & urutan langkah melalui studi kasus kehidupan nyata (cth: resep masakan).</p>
+                    </div>
+                    <!-- Jam 3 -->
+                    <div class="bg-slate-800/50 p-5 rounded-xl border border-violet-800">
+                         <div class="flex items-center gap-3 mb-3">
+                            <i data-lucide="palette" class="w-8 h-8 text-violet-400"></i>
+                            <div>
+                                <h3 class="font-bold text-white">Dasar Desain Grafis</h3>
+                                <p class="text-xs text-violet-400">Jam ke-3</p>
+                            </div>
+                        </div>
+                        <h4 class="font-semibold mb-2">Topik: Kenapa Desain Penting?</h4>
+                        <p class="text-sm text-slate-300">Membandingkan UI/UX yang baik dan buruk. Pengenalan konsep "first impression".</p>
+                    </div>
+                    <!-- Jam 4 -->
+                    <div class="bg-slate-800/50 p-5 rounded-xl border border-amber-800">
+                         <div class="flex items-center gap-3 mb-3">
+                            <i data-lucide="network" class="w-8 h-8 text-amber-400"></i>
+                            <div>
+                                <h3 class="font-bold text-white">Jaringan Dasar</h3>
+                                <p class="text-xs text-amber-400">Jam ke-4</p>
+                            </div>
+                        </div>
+                        <h4 class="font-semibold mb-2">Topik: Apa itu Jaringan?</h4>
+                        <p class="text-sm text-slate-300">Analogi jaringan sebagai jalan raya. Pengenalan LAN, WAN, dan Internet.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Akhir Template Minggu -->
+
+        </div>
+    </div>
+
+    <script>
+        const schedule = [
+            // Minggu 1 sudah ada di template
+            {
+                week: 2,
+                topics: [
+                    "Komponen Internal PC (CPU, RAM)",
+                    "Flowchart & Pseudocode",
+                    "Bitmap vs Vektor",
+                    "Perangkat Keras Jaringan (Router, Switch)"
+                ],
+                focus: [
+                    "Fokus pada peran CPU (Otak) dan RAM (Meja Kerja).",
+                    "Latihan mengubah algoritma resep masakan menjadi flowchart.",
+                    "Menunjukkan perbedaan saat gambar di-zoom (pecah vs tidak).",
+                    "Analogi Router (Polisi Lalu Lintas) dan Switch (Persimpangan)."
+                ]
+            },
+            {
+                week: 3,
+                topics: [
+                    "Komponen Internal PC (Motherboard, Storage)",
+                    "Setup Lingkungan Pemrograman",
+                    "Prinsip Desain: Kontras & Hirarki",
+                    "Topologi Jaringan (Star, Bus, Ring)"
+                ],
+                focus: [
+                    "Peran Motherboard (Sistem Saraf) & Storage (Lemari Arsip).",
+                    "Instalasi IDE (VS Code) dan compiler/interpreter (Python).",
+                    "Menganalisis poster/website untuk menemukan kontras dan hirarki.",
+                    "Menggambar dan menjelaskan kelebihan/kekurangan tiap topologi."
+                ]
+            },
+            {
+                week: 4,
+                topics: [
+                    "Praktik Merakit PC (CPU & RAM)",
+                    "Variabel & Tipe Data Primitif",
+                    "Teori Warna: RGB & Psikologi Warna",
+                    "Pengalamatan IP (IP Address)"
+                ],
+                focus: [
+                    "Praktik langsung memasang CPU & RAM ke motherboard.",
+                    "Deklarasi variabel (int, string, bool) dan mencetaknya.",
+                    "Membahas kenapa tombol 'bahaya' merah, 'sukses' hijau.",
+                    "Analogi IP Address sebagai alamat rumah di sebuah kompleks."
+                ]
+            },
+            {
+                week: 5,
+                topics: [
+                    "Praktik Merakit PC (Koneksi Kabel)",
+                    "Input & Output Program",
+                    "Pengenalan Tools Desain (Figma)",
+                    "Subnet Mask & Gateway"
+                ],
+                focus: [
+                    "Menyambungkan kabel power, front panel, dan SATA.",
+                    "Membuat program yang meminta input nama dan menyapa kembali.",
+                    "Membuat akun Figma dan eksplorasi antarmuka dasar.",
+                    "Analogi Subnet (Blok Perumahan) dan Gateway (Gerbang Kompleks)."
+                ]
+            },
+            {
+                week: 6,
+                topics: [
+                    "Instalasi OS: Booting & BIOS",
+                    "Operator Aritmatika",
+                    "Praktik Figma: Frame & Shape",
+                    "Praktik Kabel: Pengenalan Alat"
+                ],
+                focus: [
+                    "Masuk ke BIOS/UEFI dan mengatur boot order dari USB.",
+                    "Membuat program kalkulator sederhana (+, -, *, /).",
+                    "Membuat frame (artboard) dan bentuk-bentuk dasar (kotak, lingkaran).",
+                    "Pengenalan Crimping Tool, LAN Tester, dan Kabel UTP."
+                ]
+            },
+            {
+                week: 7,
+                topics: [
+                    "Instalasi OS: Partisi & Instalasi",
+                    "Operator Perbandingan",
+                    "Praktik Figma: Teks & Warna",
+                    "Praktik Kabel: Urutan Straight"
+                ],
+                focus: [
+                    "Membuat partisi (C: dan D:) dan memulai proses instalasi.",
+                    "Membuat program sederhana menggunakan '==', '>', '<'.",
+                    "Menambahkan teks, mengubah font, ukuran, dan warna pada shape.",
+                    "Mempelajari dan mempraktikkan urutan warna kabel straight."
+                ]
+            },
+            {
+                week: 8,
+                topics: [
+                    "UTS: Teori Sistem Komputer",
+                    "UTS: Praktik Logika & Program Dasar",
+                    "UTS: Teori Desain Grafis",
+                    "UTS: Teori Jaringan Dasar"
+                ],
+                focus: [
+                    "Evaluasi pemahaman komponen dan perakitan PC.",
+                    "Membuat program sederhana dari soal cerita.",
+                    "Evaluasi pemahaman prinsip dasar desain.",
+                    "Evaluasi pemahaman konsep dasar jaringan."
+                ]
+            },
+            {
+                week: 9,
+                topics: [
+                    "Instalasi Driver & Troubleshooting",
+                    "Logika Percabangan (IF-ELSE)",
+                    "Layouting: Alignment & Distribusi",
+                    "Praktik Kabel: Crimping Straight"
+                ],
+                focus: [
+                    "Instalasi driver VGA & Audio. Cek Device Manager.",
+                    "Program menentukan bilangan ganjil/genap.",
+                    "Menggunakan fitur alignment di Figma agar desain rapi.",
+                    "Praktik langsung meng-crimping kabel straight."
+                ]
+            },
+            {
+                week: 10,
+                topics: [
+                    "Perawatan PC (Debu & Suhu)",
+                    "Percabangan Bersarang (Nested IF)",
+                    "Proyek Desain: UI Login Sederhana",
+                    "Praktik Kabel: Urutan Cross"
+                ],
+                focus: [
+                    "Pentingnya kebersihan hardware dan sirkulasi udara.",
+                    "Program login dengan username dan password.",
+                    "Menerapkan semua skill Figma untuk mendesain halaman login.",
+                    "Mempelajari dan mempraktikkan urutan warna kabel cross."
+                ]
+            },
+            {
+                week: 11,
+                topics: [
+                    "Teknologi Storage (HDD vs SSD)",
+                    "Perulangan (FOR Loop)",
+                    "Prinsip UX: Usability",
+                    "Tes Koneksi: Perintah `ping`"
+                ],
+                focus: [
+                    "Membandingkan kecepatan dan cara kerja HDD dan SSD.",
+                    "Membuat program yang mencetak angka 1 sampai 10.",
+                    "Membahas mengapa desain harus mudah digunakan oleh user.",
+                    "Praktik menggunakan `ping google.com` dan ping antar teman di lab."
+                ]
+            },
+            {
+                week: 12,
+                topics: [
+                    "Upgrade Komponen (RAM, SSD)",
+                    "Perulangan (WHILE Loop)",
+                    "Proyek Desain: UI Kalkulator",
+                    "Model OSI Layer (Pengenalan)"
+                ],
+                focus: [
+                    "Teori cara & pertimbangan saat upgrade komponen.",
+                    "Membuat program validasi input menggunakan while loop.",
+                    "Mendesain UI untuk program kalkulator yang pernah dibuat.",
+                    "Pengenalan 7 lapisan OSI secara konseptual."
+                ]
+            },
+            {
+                week: 13,
+                topics: [
+                    "Troubleshooting: Beep Codes & Blue Screen",
+                    "Struktur Data: Array/List",
+                    "Prototyping di Figma",
+                    "Model TCP/IP"
+                ],
+                focus: [
+                    "Mengenali arti dari kode beep dan penyebab umum BSOD.",
+                    "Membuat list nama buah, lalu menampilkannya satu per satu.",
+                    "Menghubungkan antar frame untuk membuat simulasi aplikasi.",
+                    "Membandingkan model TCP/IP dengan model OSI."
+                ]
+            },
+            {
+                week: 14,
+                topics: [
+                    "Virtualisasi (Pengenalan VirtualBox)",
+                    "Fungsi/Method Sederhana",
+                    "Desain Ikon Sederhana",
+                    "Protokol Umum (HTTP, HTTPS, FTP)"
+                ],
+                focus: [
+                    "Teori tentang apa itu mesin virtual dan kegunaannya.",
+                    "Membuat fungsi terpisah untuk operasi penjumlahan/pengurangan.",
+                    "Membuat ikon sederhana (home, user) menggunakan shape di Figma.",
+                    "Menjelaskan fungsi dari protokol-protokol umum di internet."
+                ]
+            },
+            {
+                week: 15,
+                topics: [
+                    "Keamanan Komputer Dasar (Antivirus)",
+                    "Pengenalan Konsep OOP",
+                    "Proyek Akhir Desain",
+                    "Sharing File & Printer di LAN"
+                ],
+                focus: [
+                    "Pentingnya antivirus dan praktik browsing yang aman.",
+                    "Pengenalan konsep Class dan Object secara teori.",
+                    "Membuat desain UI untuk proyek akhir pemrograman.",
+                    "Praktik melakukan sharing folder dan printer di jaringan lab."
+                ]
+            },
+            {
+                week: 16,
+                topics: [
+                    "Review Blok Sistem Komputer",
+                    "Review Blok Pemrograman",
+                    "Review Blok Desain Grafis",
+                    "Review Blok Jaringan Dasar"
+                ],
+                focus: [
+                    "Tanya jawab dan rangkuman materi Sistem Komputer.",
+                    "Latihan soal dan rangkuman materi Pemrograman.",
+                    "Presentasi proyek desain dan rangkuman materi.",
+                    "Tanya jawab dan rangkuman materi Jaringan."
+                ]
+            }
+        ];
+
+        const container = document.querySelector('.space-y-12');
+        const template = document.querySelector('.week-template');
+        container.removeChild(template); // Hapus template awal
+
+        schedule.forEach(weekData => {
+            const weekClone = template.cloneNode(true);
+            weekClone.querySelector('.week-number').textContent = weekData.week;
+            
+            const topicCards = weekClone.querySelectorAll('.grid > div');
+            
+            topicCards.forEach((card, index) => {
+                card.querySelector('h4').textContent = `Topik: ${weekData.topics[index]}`;
+                card.querySelector('p:last-child').textContent = weekData.focus[index];
+            });
+
+            container.appendChild(weekClone);
+        });
+        
+        // Inisialisasi Lucide Icons
+        lucide.createIcons();
+    </script>
+
+</body>
+</html>
