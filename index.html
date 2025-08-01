@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alur Pembelajaran RPL - Jadwal Mingguan Detail</title>
+    <title>Alur Pembelajaran RPL - Jadwal Mingguan Detail (Lengkap)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,6 +20,12 @@
             backdrop-filter: blur(8px);
             z-index: 10;
         }
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+        .modal-content {
+            transition: transform 0.25s ease;
+        }
     </style>
 </head>
 <body class="bg-slate-900 text-slate-200 antialiased">
@@ -30,7 +36,7 @@
         <!-- Judul Utama -->
         <header class="text-center mb-12">
             <h1 class="text-4xl md:text-5xl font-bold text-white mb-2">Jadwal Pembelajaran Mingguan</h1>
-            <p class="text-lg md:text-xl text-sky-400">Dasar Keahlian RPL - Kelas X (Versi Super Detail)</p>
+            <p class="text-lg md:text-xl text-sky-400">Dasar Keahlian RPL - Kelas X (Versi Interaktif)</p>
         </header>
 
         <!-- Legenda -->
@@ -42,322 +48,278 @@
         </div>
 
         <!-- Timeline Container -->
-        <div class="space-y-12">
-
-            <!-- Template Minggu -->
-            <div class="week-template">
-                <!-- Divider Minggu -->
-                <div class="week-divider py-4 mb-8">
-                    <h2 class="text-2xl md:text-3xl font-bold text-white text-center">Minggu <span class="week-number">1</span></h2>
-                </div>
-
-                <!-- Grid Materi per Jam -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- Jam 1 -->
-                    <div class="bg-slate-800/50 p-5 rounded-xl border border-sky-800">
-                        <div class="flex items-center gap-3 mb-3">
-                            <i data-lucide="cpu" class="w-8 h-8 text-sky-400"></i>
-                            <div>
-                                <h3 class="font-bold text-white">Sistem Komputer</h3>
-                                <p class="text-xs text-sky-400">Jam ke-1</p>
-                            </div>
-                        </div>
-                        <h4 class="font-semibold mb-2">Topik: Orientasi & Konsep IPOS</h4>
-                        <p class="text-sm text-slate-300">Fokus pada siklus Input-Proses-Output-Storage. Identifikasi periferal di lab.</p>
-                    </div>
-                    <!-- Jam 2 -->
-                    <div class="bg-slate-800/50 p-5 rounded-xl border border-teal-800">
-                         <div class="flex items-center gap-3 mb-3">
-                            <i data-lucide="brain-circuit" class="w-8 h-8 text-teal-400"></i>
-                            <div>
-                                <h3 class="font-bold text-white">Pemrograman Dasar</h3>
-                                <p class="text-xs text-teal-400">Jam ke-2</p>
-                            </div>
-                        </div>
-                        <h4 class="font-semibold mb-2">Topik: Apa itu Algoritma?</h4>
-                        <p class="text-sm text-slate-300">Pengenalan logika & urutan langkah melalui studi kasus kehidupan nyata (cth: resep masakan).</p>
-                    </div>
-                    <!-- Jam 3 -->
-                    <div class="bg-slate-800/50 p-5 rounded-xl border border-violet-800">
-                         <div class="flex items-center gap-3 mb-3">
-                            <i data-lucide="palette" class="w-8 h-8 text-violet-400"></i>
-                            <div>
-                                <h3 class="font-bold text-white">Dasar Desain Grafis</h3>
-                                <p class="text-xs text-violet-400">Jam ke-3</p>
-                            </div>
-                        </div>
-                        <h4 class="font-semibold mb-2">Topik: Kenapa Desain Penting?</h4>
-                        <p class="text-sm text-slate-300">Membandingkan UI/UX yang baik dan buruk. Pengenalan konsep "first impression".</p>
-                    </div>
-                    <!-- Jam 4 -->
-                    <div class="bg-slate-800/50 p-5 rounded-xl border border-amber-800">
-                         <div class="flex items-center gap-3 mb-3">
-                            <i data-lucide="network" class="w-8 h-8 text-amber-400"></i>
-                            <div>
-                                <h3 class="font-bold text-white">Jaringan Dasar</h3>
-                                <p class="text-xs text-amber-400">Jam ke-4</p>
-                            </div>
-                        </div>
-                        <h4 class="font-semibold mb-2">Topik: Apa itu Jaringan?</h4>
-                        <p class="text-sm text-slate-300">Analogi jaringan sebagai jalan raya. Pengenalan LAN, WAN, dan Internet.</p>
-                    </div>
-                </div>
-            </div>
-            <!-- Akhir Template Minggu -->
-
+        <div id="schedule-container" class="space-y-12">
+            <!-- Konten Jadwal akan digenerate oleh JavaScript -->
         </div>
     </div>
 
+    <!-- Modal Structure -->
+    <div id="detail-modal" class="modal fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-70 backdrop-blur-sm opacity-0 pointer-events-none">
+        <div class="modal-content w-full max-w-2xl bg-slate-800 rounded-xl border border-slate-700 shadow-2xl transform scale-95">
+            <div class="p-6 border-b border-slate-700 flex justify-between items-center">
+                <div>
+                    <h3 id="modal-title" class="text-2xl font-bold text-white">Detail Materi</h3>
+                    <p id="modal-subtitle" class="text-sm text-slate-400"></p>
+                </div>
+                <button id="close-modal-btn" class="text-slate-400 hover:text-white transition-colors">
+                    <i data-lucide="x" class="w-8 h-8"></i>
+                </button>
+            </div>
+            <div id="modal-body" class="p-6 max-h-[60vh] overflow-y-auto text-slate-300 space-y-4">
+                <!-- Konten Detail akan dimasukkan di sini -->
+            </div>
+        </div>
+    </div>
+
+
     <script>
+        // Data Jadwal Pembelajaran Detail Lengkap 1 Semester
         const schedule = [
-            // Minggu 1 sudah ada di template
+            {
+                week: 1,
+                sessions: [
+                    { topic: "Orientasi & Konsep IPOS", focus: "Fokus pada siklus Input-Proses-Output-Storage. Identifikasi periferal di lab.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu menjelaskan siklus pemrosesan dasar komputer dan mengidentifikasi perangkat input, output, proses, dan storage.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Definisi Hardware, Software, Brainware.</li><li>Penjelasan detail siklus IPOS dengan analogi memasak.</li><li>Contoh perangkat untuk setiap kategori IPOS.</li></ul><h4>Aktivitas:</h4><p>Siswa berkeliling lab dan menempelkan stiker (Input/Output/Storage) pada perangkat yang sesuai.</p>' },
+                    { topic: "Apa itu Algoritma?", focus: "Pengenalan logika & urutan langkah melalui studi kasus kehidupan nyata (cth: resep masakan).", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa memahami bahwa algoritma adalah inti dari pemrograman dan merupakan serangkaian langkah yang logis dan terurut.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Definisi dan ciri-ciri algoritma (terbatas, pasti, efektif).</li><li>Studi kasus: Algoritma membuat kopi, algoritma pergi ke sekolah.</li><li>Konsep "bug" dari cerita Grace Hopper.</li></ul><h4>Aktivitas:</h4><p>Permainan "Robot Manusia": Siswa memberikan instruksi verbal detail untuk memandu temannya melakukan tugas sederhana.</p>' },
+                    { topic: "Kenapa Desain Penting?", focus: "Membandingkan UI/UX yang baik dan buruk. Pengenalan konsep 'first impression'.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa menyadari dampak visual dan kemudahan penggunaan terhadap penerimaan sebuah produk perangkat lunak.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Perbedaan UI (User Interface) dan UX (User Experience).</li><li>Studi kasus: Perbandingan tampilan ATM lama vs aplikasi mobile banking baru.</li><li>Pentingnya kesan pertama (First Impression).</li></ul><h4>Aktivitas:</h4><p>Diskusi kelompok: Menganalisis aplikasi favorit mereka dan menyebutkan apa yang mereka sukai dari tampilannya.</p>' },
+                    { topic: "Apa itu Jaringan?", focus: "Analogi jaringan sebagai jalan raya. Pengenalan LAN, WAN, dan Internet.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu membedakan jenis-jenis jaringan komputer berdasarkan cakupan geografisnya.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Definisi Jaringan Komputer dan manfaatnya (berbagi sumber daya).</li><li>LAN (Local Area Network): Jaringan dalam satu gedung (lab komputer).</li><li>WAN (Wide Area Network): Jaringan antar kota/negara.</li><li>Internet sebagai jaringan global.</li></ul><h4>Aktivitas:</h4><p>Menggambar peta sederhana yang menggambarkan hubungan antara LAN di sekolah, yang terhubung ke WAN (provider), lalu ke Internet.</p>' }
+                ]
+            },
             {
                 week: 2,
-                topics: [
-                    "Komponen Internal PC (CPU, RAM)",
-                    "Flowchart & Pseudocode",
-                    "Bitmap vs Vektor",
-                    "Perangkat Keras Jaringan (Router, Switch)"
-                ],
-                focus: [
-                    "Fokus pada peran CPU (Otak) dan RAM (Meja Kerja).",
-                    "Latihan mengubah algoritma resep masakan menjadi flowchart.",
-                    "Menunjukkan perbedaan saat gambar di-zoom (pecah vs tidak).",
-                    "Analogi Router (Polisi Lalu Lintas) dan Switch (Persimpangan)."
+                sessions: [
+                    { topic: "Komponen Internal PC (CPU, RAM)", focus: "Fokus pada peran CPU (Otak) dan RAM (Meja Kerja).", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa dapat menjelaskan fungsi utama dari CPU dan RAM dalam sebuah sistem komputer.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>CPU (Central Processing Unit): Arsitektur dasar (ALU, CU), kecepatan (GHz). Analogi: Koki di dapur.</li><li>RAM (Random Access Memory): Sifat "volatile", kecepatan (MHz). Analogi: Meja kerja.</li></ul><h4>Aktivitas:</h4><p>Menunjukkan fisik CPU dan kepingan RAM. Siswa mengidentifikasi slotnya di motherboard.</p>' },
+                    { topic: "Flowchart & Pseudocode", focus: "Latihan mengubah algoritma resep masakan menjadi flowchart.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu merepresentasikan sebuah algoritma menggunakan flowchart dan pseudocode.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Simbol-simbol dasar Flowchart (Terminator, Proses, Input/Output, Decision, Flow).</li><li>Struktur penulisan Pseudocode (BEGIN, END, READ, WRITE).</li></ul><h4>Aktivitas:</h4><p>Siswa secara berkelompok membuat flowchart dan pseudocode dari algoritma "Membuat Teh Manis".</p>' },
+                    { topic: "Bitmap vs Vektor", focus: "Menunjukkan perbedaan saat gambar di-zoom (pecah vs tidak).", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa dapat membedakan antara grafis berbasis bitmap dan vektor beserta kegunaannya.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Bitmap: Terbentuk dari pixel, resolusi-dependent. Cocok untuk foto. Contoh format: JPG, PNG, GIF.</li><li>Vektor: Terbentuk dari rumus matematis, resolusi-independent. Cocok untuk logo & ikon. Contoh format: SVG, AI.</li></ul><h4>Aktivitas:</h4><p>Demo langsung menggunakan software grafis: men-zoom sebuah gambar JPG hingga pecah, lalu men-zoom sebuah logo SVG yang tetap tajam.</p>' },
+                    { topic: "Perangkat Keras Jaringan", focus: "Analogi Router (Polisi Lalu Lintas) dan Switch (Persimpangan).", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu mengidentifikasi dan menjelaskan fungsi dasar dari perangkat keras jaringan.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Kabel UTP & Konektor RJ-45.</li><li>Switch: Menghubungkan perangkat dalam satu LAN.</li><li>Router: Menghubungkan antar jaringan yang berbeda.</li></ul><h4>Aktivitas:</h4><p>Menunjukkan fisik Switch dan Router yang ada di lab. Menelusuri jalur kabel dari PC siswa ke Switch.</p>' }
                 ]
             },
             {
                 week: 3,
-                topics: [
-                    "Komponen Internal PC (Motherboard, Storage)",
-                    "Setup Lingkungan Pemrograman",
-                    "Prinsip Desain: Kontras & Hirarki",
-                    "Topologi Jaringan (Star, Bus, Ring)"
-                ],
-                focus: [
-                    "Peran Motherboard (Sistem Saraf) & Storage (Lemari Arsip).",
-                    "Instalasi IDE (VS Code) dan compiler/interpreter (Python).",
-                    "Menganalisis poster/website untuk menemukan kontras dan hirarki.",
-                    "Menggambar dan menjelaskan kelebihan/kekurangan tiap topologi."
+                sessions: [
+                    { topic: "Komponen Internal PC (Motherboard, Storage)", focus: "Peran Motherboard (Sistem Saraf) & Storage (Lemari Arsip).", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa dapat menjelaskan fungsi motherboard sebagai penghubung dan membedakan HDD dengan SSD.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Motherboard: Chipset, slot ekspansi (PCIe), port I/O.</li><li>HDD (Hard Disk Drive): Piringan mekanik.</li><li>SSD (Solid State Drive): Chip flash memory, lebih cepat.</li></ul><h4>Aktivitas:</h4><p>Menunjukkan port-port di motherboard (USB, Audio, LAN) dan konektor SATA untuk storage.</p>' },
+                    { topic: "Setup Lingkungan Pemrograman", focus: "Instalasi IDE (VS Code) dan compiler/interpreter (Python).", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu menyiapkan lingkungan pengembangan di komputernya sendiri.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Perbedaan IDE, Text Editor, Compiler, Interpreter.</li><li>Panduan langkah-demi-langkah instalasi VS Code.</li><li>Instalasi ekstensi Python untuk VS Code.</li></ul><h4>Aktivitas:</h4><p>Siswa mengikuti panduan untuk menginstal software di PC lab. Menjalankan file .py pertama kali dari terminal VS Code.</p>' },
+                    { topic: "Prinsip Desain: Kontras & Hirarki", focus: "Menganalisis poster/website untuk menemukan kontras dan hirarki.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu mengidentifikasi dan menerapkan prinsip kontras dan hirarki dalam sebuah desain.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Kontras: Warna, ukuran, bentuk, tipografi.</li><li>Hirarki Visual: Memandu mata pengguna ke elemen terpenting.</li><li>Contoh tombol "Call to Action" (CTA).</li></ul><h4>Aktivitas:</h4><p>"Bedah desain" aplikasi Gojek/Grab, menandai elemen dengan hirarki tertinggi (misal: tombol "Pesan").</p>' },
+                    { topic: "Topologi Jaringan (Star, Bus, Ring)", focus: "Menggambar dan menjelaskan kelebihan/kekurangan tiap topologi.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu menjelaskan cara kerja, kelebihan, dan kelemahan dari topologi dasar jaringan.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Topologi Star: Terpusat, mudah dikelola, boros kabel.</li><li>Topologi Bus: Hemat kabel, sulit troubleshoot, rentan tabrakan data.</li><li>Topologi Ring: Hemat kabel, transmisi data searah.</li></ul><h4>Aktivitas:</h4><p>Siswa menggambar skema ketiga topologi di buku catatan dan menuliskan 1 kelebihan & 1 kekurangan.</p>' }
                 ]
             },
             {
                 week: 4,
-                topics: [
-                    "Praktik Merakit PC (CPU & RAM)",
-                    "Variabel & Tipe Data Primitif",
-                    "Teori Warna: RGB & Psikologi Warna",
-                    "Pengalamatan IP (IP Address)"
-                ],
-                focus: [
-                    "Praktik langsung memasang CPU & RAM ke motherboard.",
-                    "Deklarasi variabel (int, string, bool) dan mencetaknya.",
-                    "Membahas kenapa tombol 'bahaya' merah, 'sukses' hijau.",
-                    "Analogi IP Address sebagai alamat rumah di sebuah kompleks."
+                sessions: [
+                    { topic: "Praktik Merakit PC (CPU & RAM)", focus: "Praktik langsung memasang CPU & RAM ke motherboard.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mendapatkan pengalaman langsung dalam menangani dan memasang komponen inti PC dengan aman.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Prosedur K3 (gelang antistatis).</li><li>Cara membuka tuas socket CPU, memperhatikan tanda segitiga.</li><li>Cara memasang RAM (membuka klip, menekan hingga berbunyi "klik").</li></ul><h4>Aktivitas:</h4><p>Praktik langsung per kelompok dengan pengawasan ketat dari guru.</p>' },
+                    { topic: "Variabel & Tipe Data Primitif", focus: "Deklarasi variabel (int, string, bool) dan mencetaknya.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu mendeklarasikan variabel dan menggunakan tipe data yang sesuai untuk menyimpan informasi.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Aturan penamaan variabel (tidak boleh diawali angka, tidak boleh pakai spasi).</li><li>Penjelasan tipe data: integer, float, string, boolean.</li><li>Konsep assignment (=) untuk memberi nilai.</li></ul><h4>Aktivitas:</h4><p>Coding: Membuat program biodata sederhana (nama, umur, status_aktif) dan menampilkannya.</p>' },
+                    { topic: "Teori Warna: RGB & Psikologi Warna", focus: "Membahas kenapa tombol 'bahaya' merah, 'sukses' hijau.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa memahami dasar model warna digital dan pengaruh psikologis warna dalam desain.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Model warna aditif RGB (Red, Green, Blue) untuk layar.</li><li>Psikologi warna dasar: Merah (energi, bahaya), Biru (tenang, percaya), Hijau (alam, sukses).</li></ul><h4>Aktivitas:</h4><p>Diskusi tentang makna warna pada logo-logo terkenal (misal: Facebook biru, Coca-Cola merah).</p>' },
+                    { topic: "Pengalamatan IP (IP Address)", focus: "Analogi IP Address sebagai alamat rumah di sebuah kompleks.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa memahami konsep dasar dan struktur dari alamat IP versi 4.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Struktur IPv4 (32-bit, 4 oktet).</li><li>Perbedaan IP Public vs Private (Range IP Private).</li><li>Kelas IP (A, B, C) dan peruntukannya.</li></ul><h4>Aktivitas:</h4><p>Praktik menggunakan `ipconfig` (Windows) atau `ifconfig` (Linux) untuk melihat IP Address PC masing-masing.</p>' }
                 ]
             },
             {
                 week: 5,
-                topics: [
-                    "Praktik Merakit PC (Koneksi Kabel)",
-                    "Input & Output Program",
-                    "Pengenalan Tools Desain (Figma)",
-                    "Subnet Mask & Gateway"
-                ],
-                focus: [
-                    "Menyambungkan kabel power, front panel, dan SATA.",
-                    "Membuat program yang meminta input nama dan menyapa kembali.",
-                    "Membuat akun Figma dan eksplorasi antarmuka dasar.",
-                    "Analogi Subnet (Blok Perumahan) dan Gateway (Gerbang Kompleks)."
+                sessions: [
+                    { topic: "Praktik Merakit PC (Koneksi Kabel)", focus: "Menyambungkan kabel power, front panel, dan SATA.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu menghubungkan komponen-komponen utama ke motherboard dan power supply.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Konektor ATX 24-pin & 8-pin CPU.</li><li>Konektor Front Panel (Power SW, Reset SW, HDD LED).</li><li>Konektor SATA untuk HDD/SSD.</li></ul><h4>Aktivitas:</h4><p>Praktik langsung per kelompok, fokus pada ketelitian membaca label di motherboard.</p>' },
+                    { topic: "Input & Output Program", focus: "Membuat program yang meminta input nama dan menyapa kembali.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu membuat program yang interaktif dengan menerima masukan dari pengguna.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Fungsi `input()` untuk menerima data (selalu dalam bentuk string).</li><li>Fungsi `print()` untuk menampilkan data.</li><li>Konsep konversi tipe data (casting): `int()`, `float()`.</li></ul><h4>Aktivitas:</h4><p>Coding: Membuat program yang menanyakan nama dan tahun lahir, lalu menghitung dan menampilkan umur pengguna.</p>' },
+                    { topic: "Pengenalan Tools Desain (Figma)", focus: "Membuat akun Figma dan eksplorasi antarmuka dasar.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa familiar dengan antarmuka dasar Figma sebagai alat utama desain UI/UX.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Pendaftaran akun Figma.</li><li>Pengenalan area kerja: Canvas, Layers Panel, Properties Panel.</li><li>Navigasi dasar: Zoom, Pan.</li></ul><h4>Aktivitas:</h4><p>Siswa mengikuti demo untuk membuat file baru dan mencoba navigasi dasar di Figma.</p>' },
+                    { topic: "Subnet Mask & Gateway", focus: "Analogi Subnet (Blok Perumahan) dan Gateway (Gerbang Kompleks).", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa memahami fungsi Subnet Mask dan Default Gateway dalam sebuah jaringan.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Subnet Mask: Menentukan bagian Network ID dan Host ID dari sebuah IP.</li><li>Default Gateway: Gerbang untuk keluar dari jaringan lokal menuju jaringan lain (internet).</li></ul><h4>Aktivitas:</h4><p>Melihat informasi Subnet Mask dan Gateway di hasil `ipconfig` dan mendiskusikan artinya.</p>' }
                 ]
             },
             {
                 week: 6,
-                topics: [
-                    "Instalasi OS: Booting & BIOS",
-                    "Operator Aritmatika",
-                    "Praktik Figma: Frame & Shape",
-                    "Praktik Kabel: Pengenalan Alat"
-                ],
-                focus: [
-                    "Masuk ke BIOS/UEFI dan mengatur boot order dari USB.",
-                    "Membuat program kalkulator sederhana (+, -, *, /).",
-                    "Membuat frame (artboard) dan bentuk-bentuk dasar (kotak, lingkaran).",
-                    "Pengenalan Crimping Tool, LAN Tester, dan Kabel UTP."
+                sessions: [
+                    { topic: "Instalasi OS: Booting & BIOS", focus: "Masuk ke BIOS/UEFI dan mengatur boot order dari USB.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu masuk ke menu BIOS/UEFI dan mengubah urutan booting perangkat.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Fungsi BIOS (Basic Input/Output System) & UEFI.</li><li>Tombol-tombol umum untuk masuk BIOS (Del, F2, F10).</li><li>Menu Boot dan cara mengubah prioritasnya.</li></ul><h4>Aktivitas:</h4><p>Praktik masuk ke BIOS pada PC yang telah dirakit dan mengatur agar booting pertama dari USB Flashdisk.</p>' },
+                    { topic: "Operator Aritmatika", focus: "Membuat program kalkulator sederhana (+, -, *, /).", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu menggunakan operator aritmatika untuk melakukan kalkulasi matematis dalam program.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Operator: +, -, *, / (pembagian desimal).</li><li>Operator Modulo (%): Sisa bagi.</li><li>Operator Floor Division (//): Pembagian bulat.</li><li>Operator Eksponen (**).</li></ul><h4>Aktivitas:</h4><p>Proyek Mini: Membuat program kalkulator sederhana yang menerima dua angka dan satu operator dari pengguna.</p>' },
+                    { topic: "Praktik Figma: Frame & Shape", focus: "Membuat frame (artboard) dan bentuk-bentuk dasar (kotak, lingkaran).", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu membuat area kerja dan objek-objek visual dasar di Figma.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Frame Tool: Memilih preset ukuran layar (iPhone, Desktop).</li><li>Shape Tools: Rectangle, Ellipse, Polygon.</li><li>Mengubah properti shape: ukuran, warna, corner radius.</li></ul><h4>Aktivitas:</h4><p>Latihan membuat layout sederhana sebuah smartphone menggunakan frame dan beberapa shape untuk tombol dan gambar profil.</p>' },
+                    { topic: "Praktik Kabel: Pengenalan Alat", focus: "Pengenalan Crimping Tool, LAN Tester, dan Kabel UTP.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mengenal nama dan fungsi dari peralatan dasar untuk membuat kabel jaringan.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Crimping Tool: Fungsi memotong, mengupas, dan menjepit konektor.</li><li>LAN Tester: Fungsi memeriksa konektivitas 8 pin kabel.</li><li>Kabel UTP (Unshielded Twisted Pair): Struktur dan kategori (Cat5e, Cat6).</li></ul><h4>Aktivitas:</h4><p>Demo penggunaan setiap alat oleh guru. Siswa mencoba memegang dan merasakan fungsi dasar alat (tanpa kabel dulu).</p>' }
                 ]
             },
             {
                 week: 7,
-                topics: [
-                    "Instalasi OS: Partisi & Instalasi",
-                    "Operator Perbandingan",
-                    "Praktik Figma: Teks & Warna",
-                    "Praktik Kabel: Urutan Straight"
-                ],
-                focus: [
-                    "Membuat partisi (C: dan D:) dan memulai proses instalasi.",
-                    "Membuat program sederhana menggunakan '==', '>', '<'.",
-                    "Menambahkan teks, mengubah font, ukuran, dan warna pada shape.",
-                    "Mempelajari dan mempraktikkan urutan warna kabel straight."
+                sessions: [
+                    { topic: "Instalasi OS: Partisi & Instalasi", focus: "Membuat partisi (C: dan D:) dan memulai proses instalasi.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu melakukan proses instalasi Sistem Operasi termasuk pembuatan partisi.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Konsep Partisi: Membagi storage fisik menjadi beberapa drive logis.</li><li>Perbedaan Partisi Primary dan Logical.</li><li>Langkah-langkah instalasi Windows/Linux.</li></ul><h4>Aktivitas:</h4><p>Praktik langsung instalasi OS pada PC yang telah dirakit, dengan panduan langkah demi langkah.</p>' },
+                    { topic: "Operator Perbandingan", focus: "Membuat program sederhana menggunakan '==', '>', '<'.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa memahami cara kerja operator perbandingan yang menghasilkan nilai Boolean (True/False).</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Operator: == (sama dengan), != (tidak sama dengan).</li><li>Operator: >, <, >=, <=.</li><li>Hasil dari operasi perbandingan adalah True atau False.</li></ul><h4>Aktivitas:</h4><p>Coding: Membuat program yang membandingkan dua angka dan mencetak hasil perbandingannya (misal: "5 > 3 adalah True").</p>' },
+                    { topic: "Praktik Figma: Teks & Warna", focus: "Menambahkan teks, mengubah font, ukuran, dan warna pada shape.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu menambahkan dan memformat elemen tipografi dalam desain mereka.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Text Tool.</li><li>Properties Panel untuk Teks: Font family, weight, size, line height, alignment.</li><li>Menggunakan color picker dan kode HEX.</li></ul><h4>Aktivitas:</h4><p>Melanjutkan desain layout smartphone, menambahkan judul halaman dan label pada tombol.</p>' },
+                    { topic: "Praktik Kabel: Urutan Straight", focus: "Mempelajari dan mempraktikkan urutan warna kabel straight.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa hafal dan mampu menyusun urutan warna kabel T568B untuk konfigurasi straight-through.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Kegunaan kabel Straight: Menghubungkan perangkat yang berbeda jenis (PC ke Switch).</li><li>Standar T568B: Putih-Oranye, Oranye, Putih-Hijau, Biru, Putih-Biru, Hijau, Putih-Coklat, Coklat.</li></ul><h4>Aktivitas:</h4><p>Siswa berlatih menyusun 8 kabel kecil sesuai urutan T568B dan merapikannya.</p>' }
                 ]
             },
             {
                 week: 8,
-                topics: [
-                    "UTS: Teori Sistem Komputer",
-                    "UTS: Praktik Logika & Program Dasar",
-                    "UTS: Teori Desain Grafis",
-                    "UTS: Teori Jaringan Dasar"
-                ],
-                focus: [
-                    "Evaluasi pemahaman komponen dan perakitan PC.",
-                    "Membuat program sederhana dari soal cerita.",
-                    "Evaluasi pemahaman prinsip dasar desain.",
-                    "Evaluasi pemahaman konsep dasar jaringan."
+                sessions: [
+                    { topic: "UTS: Teori Sistem Komputer", focus: "Evaluasi pemahaman komponen dan perakitan PC.", details: '<h4>Tujuan Pembelajaran:</h4><p>Mengukur pemahaman siswa terhadap materi Blok 1 (Minggu 1-7).</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Fungsi komponen PC.</li><li>Langkah-langkah perakitan.</li><li>Konsep dasar OS dan BIOS.</li></ul><h4>Aktivitas:</h4><p>Ujian Tulis (Pilihan Ganda & Esai Singkat).</p>' },
+                    { topic: "UTS: Praktik Logika & Program Dasar", focus: "Membuat program sederhana dari soal cerita.", details: '<h4>Tujuan Pembelajaran:</h4><p>Mengukur kemampuan siswa dalam menerapkan logika pemrograman dasar.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Variabel, Tipe Data.</li><li>Input/Output.</li><li>Operator Aritmatika & Perbandingan.</li></ul><h4>Aktivitas:</h4><p>Ujian Praktik di depan komputer. Siswa diberi soal cerita dan diminta membuat program untuk menyelesaikannya.</p>' },
+                    { topic: "UTS: Teori Desain Grafis", focus: "Evaluasi pemahaman prinsip dasar desain.", details: '<h4>Tujuan Pembelajaran:</h4><p>Mengukur pemahaman siswa terhadap konsep dasar desain visual.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Bitmap vs Vektor.</li><li>Prinsip Desain (Kontras, Hirarki).</li><li>Teori Warna RGB.</li></ul><h4>Aktivitas:</h4><p>Ujian Tulis (Pilihan Ganda & Identifikasi Konsep pada Gambar).</p>' },
+                    { topic: "UTS: Teori Jaringan Dasar", focus: "Evaluasi pemahaman konsep dasar jaringan.", details: '<h4>Tujuan Pembelajaran:</h4><p>Mengukur pemahaman siswa terhadap konsep dan perangkat dasar jaringan.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>LAN, WAN, Internet.</li><li>Fungsi Switch & Router.</li><li>Topologi & IP Address.</li></ul><h4>Aktivitas:</h4><p>Ujian Tulis (Pilihan Ganda & Menjodohkan).</p>' }
                 ]
             },
             {
                 week: 9,
-                topics: [
-                    "Instalasi Driver & Troubleshooting",
-                    "Logika Percabangan (IF-ELSE)",
-                    "Layouting: Alignment & Distribusi",
-                    "Praktik Kabel: Crimping Straight"
-                ],
-                focus: [
-                    "Instalasi driver VGA & Audio. Cek Device Manager.",
-                    "Program menentukan bilangan ganjil/genap.",
-                    "Menggunakan fitur alignment di Figma agar desain rapi.",
-                    "Praktik langsung meng-crimping kabel straight."
+                sessions: [
+                    { topic: "Instalasi Driver & Troubleshooting", focus: "Instalasi driver VGA & Audio. Cek Device Manager.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa memahami pentingnya driver dan dapat memeriksa status perangkat keras.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Apa itu Driver? Analogi: Penerjemah.</li><li>Mencari driver di situs web produsen motherboard/VGA.</li><li>Menggunakan Device Manager untuk melihat perangkat yang belum terinstal (tanda tanya kuning).</li></ul><h4>Aktivitas:</h4><p>Praktik instalasi driver pada PC yang sudah terinstal OS. Memastikan tidak ada lagi tanda tanya kuning di Device Manager.</p>' },
+                    { topic: "Logika Percabangan (IF-ELSE)", focus: "Program menentukan bilangan ganjil/genap.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu membuat program yang dapat mengambil keputusan berdasarkan satu kondisi.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Struktur `if (kondisi): ... else: ...`</li><li>Pentingnya indentasi dalam blok if/else.</li><li>Menggunakan operator modulo (%) untuk cek ganjil/genap.</li></ul><h4>Aktivitas:</h4><p>Coding: Membuat program penentu bilangan ganjil/genap. Lalu modifikasi menjadi program penentu kelulusan (jika nilai >= 75).</p>' },
+                    { topic: "Layouting: Alignment & Distribusi", focus: "Menggunakan fitur alignment di Figma agar desain rapi.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu membuat tata letak yang rapi dan konsisten secara otomatis.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Fitur Alignment (Align Left, Center, Right, etc.).</li><li>Fitur Distribusi (Distribute horizontal/vertical spacing).</li><li>Konsep Grouping objek.</li></ul><h4>Aktivitas:</h4><p>Latihan merapikan sekumpulan tombol yang berantakan menjadi barisan yang rapi dengan jarak yang sama menggunakan fitur alignment dan distribusi.</p>' },
+                    { topic: "Praktik Kabel: Crimping Straight", focus: "Praktik langsung meng-crimping kabel straight.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mendapatkan keterampilan langsung dalam membuat kabel jaringan tipe straight.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Teknik mengupas kulit luar kabel UTP.</li><li>Teknik meluruskan dan mengurutkan 8 kabel kecil.</li><li>Teknik memasukkan kabel ke konektor RJ-45 dan menjepitnya dengan crimping tool.</li></ul><h4>Aktivitas:</h4><p>Praktik langsung membuat kabel straight. Hasilnya diuji menggunakan LAN Tester.</p>' }
                 ]
             },
             {
                 week: 10,
-                topics: [
-                    "Perawatan PC (Debu & Suhu)",
-                    "Percabangan Bersarang (Nested IF)",
-                    "Proyek Desain: UI Login Sederhana",
-                    "Praktik Kabel: Urutan Cross"
-                ],
-                focus: [
-                    "Pentingnya kebersihan hardware dan sirkulasi udara.",
-                    "Program login dengan username dan password.",
-                    "Menerapkan semua skill Figma untuk mendesain halaman login.",
-                    "Mempelajari dan mempraktikkan urutan warna kabel cross."
+                sessions: [
+                    { topic: "Perawatan PC (Debu & Suhu)", focus: "Pentingnya kebersihan hardware dan sirkulasi udara.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa memahami pentingnya perawatan fisik untuk menjaga performa dan umur komputer.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Bahaya debu: Menghambat pendinginan, korsleting.</li><li>Pentingnya airflow (aliran udara) dalam casing.</li><li>Cara membersihkan debu dengan aman (kuas, blower).</li><li>Software monitoring suhu (misal: HWMonitor).</li></ul><h4>Aktivitas:</h4><p>Praktik membersihkan PC lab yang berdebu (jika memungkinkan dan aman).</p>' },
+                    { topic: "Percabangan Bersarang (Nested IF)", focus: "Program login dengan username dan password.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu membuat logika percabangan yang lebih kompleks dengan if di dalam if.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Struktur `if ...: if ...: ...`</li><li>Logika pengecekan bertingkat.</li><li>Operator Logika (AND, OR) sebagai alternatif Nested IF.</li></ul><h4>Aktivitas:</h4><p>Coding: Membuat program login sederhana. Cek username dulu, jika benar, baru cek password.</p>' },
+                    { topic: "Proyek Desain: UI Login Sederhana", focus: "Menerapkan semua skill Figma untuk mendesain halaman login.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu mengintegrasikan berbagai skill Figma untuk membuat sebuah desain halaman yang utuh.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Membuat Frame.</li><li>Menambahkan field input (rectangle), tombol (rectangle), dan teks.</li><li>Menggunakan alignment dan warna yang konsisten.</li></ul><h4>Aktivitas:</h4><p>Proyek mini: Siswa mendesain halaman login untuk aplikasi imajiner mereka.</p>' },
+                    { topic: "Praktik Kabel: Urutan Cross", focus: "Mempelajari dan mempraktikkan urutan warna kabel cross.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa hafal dan mampu menyusun urutan warna kabel untuk konfigurasi cross-over.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Kegunaan kabel Cross: Menghubungkan perangkat sejenis (PC ke PC, Switch ke Switch).</li><li>Standar: Ujung satu T568B, ujung lainnya T568A.</li></ul><h4>Aktivitas:</h4><p>Siswa berlatih menyusun urutan T568A, lalu membuat kabel cross dan mengujinya.</p>' }
                 ]
             },
             {
                 week: 11,
-                topics: [
-                    "Teknologi Storage (HDD vs SSD)",
-                    "Perulangan (FOR Loop)",
-                    "Prinsip UX: Usability",
-                    "Tes Koneksi: Perintah `ping`"
-                ],
-                focus: [
-                    "Membandingkan kecepatan dan cara kerja HDD dan SSD.",
-                    "Membuat program yang mencetak angka 1 sampai 10.",
-                    "Membahas mengapa desain harus mudah digunakan oleh user.",
-                    "Praktik menggunakan `ping google.com` dan ping antar teman di lab."
+                sessions: [
+                    { topic: "Teknologi Storage (HDD vs SSD)", focus: "Membandingkan kecepatan dan cara kerja HDD dan SSD.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa memahami perbedaan fundamental, kelebihan, dan kekurangan dari HDD dan SSD.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>HDD: Mekanik, piringan berputar, lebih murah, kapasitas besar, lebih lambat.</li><li>SSD: Elektronik, chip flash, lebih mahal, lebih cepat, lebih tahan guncangan.</li><li>Demo perbandingan kecepatan booting OS dari HDD vs SSD.</li></ul><h4>Aktivitas:</h4><p>Diskusi: Kapan kita harus memilih HDD? Kapan harus memilih SSD?</p>' },
+                    { topic: "Perulangan (FOR Loop)", focus: "Membuat program yang mencetak angka 1 sampai 10.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu menggunakan `for` loop untuk melakukan iterasi yang jumlahnya sudah ditentukan.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Sintaks `for ... in range(...)`.</li><li>Fungsi `range(start, stop, step)`.</li><li>Looping untuk mencetak angka, karakter string.</li></ul><h4>Aktivitas:</h4><p>Coding: Membuat program untuk mencetak "Hello World" sebanyak 10 kali. Lalu membuat program tabel perkalian.</p>' },
+                    { topic: "Prinsip UX: Usability", focus: "Membahas mengapa desain harus mudah digunakan oleh user.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa memahami bahwa desain yang baik bukan hanya indah, tapi juga fungsional dan mudah dipahami.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Definisi Usability (kemudahan penggunaan).</li><li>Pentingnya label yang jelas, feedback, dan konsistensi.</li><li>Konsep "Don\'t make me think".</li></ul><h4>Aktivitas:</h4><p>Studi kasus: Menganalisis pintu yang desainnya buruk (pintu Norman) vs pintu yang jelas cara membukanya.</p>' },
+                    { topic: "Tes Koneksi: Perintah `ping`", focus: "Praktik menggunakan `ping google.com` dan ping antar teman di lab.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu menggunakan utilitas `ping` untuk memeriksa konektivitas jaringan dasar.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Fungsi `ping`: Mengirim paket ICMP Echo Request.</li><li>Membaca output ping: `Reply from`, `time`, `TTL`.</li><li>Arti `Request timed out` dan `Destination host unreachable`.</li></ul><h4>Aktivitas:</h4><p>Praktik: `ping` ke gateway, `ping` ke google.com, dan `ping` ke alamat IP teman sebangku menggunakan kabel cross.</p>' }
                 ]
             },
             {
                 week: 12,
-                topics: [
-                    "Upgrade Komponen (RAM, SSD)",
-                    "Perulangan (WHILE Loop)",
-                    "Proyek Desain: UI Kalkulator",
-                    "Model OSI Layer (Pengenalan)"
-                ],
-                focus: [
-                    "Teori cara & pertimbangan saat upgrade komponen.",
-                    "Membuat program validasi input menggunakan while loop.",
-                    "Mendesain UI untuk program kalkulator yang pernah dibuat.",
-                    "Pengenalan 7 lapisan OSI secara konseptual."
+                sessions: [
+                    { topic: "Upgrade Komponen (RAM, SSD)", focus: "Teori cara & pertimbangan saat upgrade komponen.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mengetahui pertimbangan teknis sebelum melakukan upgrade komponen.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Upgrade RAM: Cek tipe (DDR3/4/5), kecepatan, dan kapasitas maksimal motherboard.</li><li>Upgrade Storage: Cek ketersediaan port SATA/M.2.</li><li>Konsep "bottleneck".</li></ul><h4>Aktivitas:</h4><p>Studi kasus: Diberikan spesifikasi PC lama, siswa diminta menentukan komponen upgrade yang paling efektif untuk gaming/desain.</p>' },
+                    { topic: "Perulangan (WHILE Loop)", focus: "Membuat program validasi input menggunakan while loop.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu menggunakan `while` loop untuk melakukan iterasi yang kondisinya belum pasti kapan berhenti.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Sintaks `while (kondisi): ...`</li><li>Pentingnya update variabel kondisi untuk menghindari infinite loop.</li><li>Penggunaan `break` untuk keluar dari loop.</li></ul><h4>Aktivitas:</h4><p>Coding: Membuat program tebak angka, di mana program akan terus meminta input selama tebakan salah.</p>' },
+                    { topic: "Proyek Desain: UI Kalkulator", focus: "Mendesain UI untuk program kalkulator yang pernah dibuat.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu menerjemahkan fungsionalitas program menjadi desain antarmuka yang visual.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Membuat grid tombol angka dan operator.</li><li> Mendesain area display untuk menampilkan angka.</li><li>Menerapkan prinsip hirarki (misal: tombol "=" dibuat beda).</li></ul><h4>Aktivitas:</h4><p>Proyek mini: Siswa mendesain UI untuk program kalkulator mereka di Figma.</p>' },
+                    { topic: "Model OSI Layer (Pengenalan)", focus: "Pengenalan 7 lapisan OSI secara konseptual.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mengetahui adanya model referensi berlapis dalam komunikasi jaringan.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Analogi OSI Layer seperti proses pengiriman surat (ditulis, dimasukkan amplop, diberi alamat, dikirim via pos, dst).</li><li>Menyebutkan 7 lapisan: Physical, Data Link, Network, Transport, Session, Presentation, Application.</li></ul><h4>Aktivitas:</h4><p>Menonton video animasi penjelasan OSI Layer untuk mempermudah pemahaman.</p>' }
                 ]
             },
             {
                 week: 13,
-                topics: [
-                    "Troubleshooting: Beep Codes & Blue Screen",
-                    "Struktur Data: Array/List",
-                    "Prototyping di Figma",
-                    "Model TCP/IP"
-                ],
-                focus: [
-                    "Mengenali arti dari kode beep dan penyebab umum BSOD.",
-                    "Membuat list nama buah, lalu menampilkannya satu per satu.",
-                    "Menghubungkan antar frame untuk membuat simulasi aplikasi.",
-                    "Membandingkan model TCP/IP dengan model OSI."
+                sessions: [
+                    { topic: "Troubleshooting: Beep Codes & Blue Screen", focus: "Mengenali arti dari kode beep dan penyebab umum BSOD.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu melakukan diagnosis awal masalah hardware berdasarkan kode beep atau pesan error BSOD.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Beep Codes: 1x beep (normal), beep panjang terus menerus (RAM), dll.</li><li>BSOD (Blue Screen of Death): Penyebab umum (driver, RAM, overheating).</li><li>Pentingnya mencatat kode error pada BSOD.</li></ul><h4>Aktivitas:</h4><p>Mencari di internet arti dari beberapa contoh kode beep dan kode error BSOD.</p>' },
+                    { topic: "Struktur Data: Array/List", focus: "Membuat list nama buah, lalu menampilkannya satu per satu.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu menyimpan dan mengelola sekumpulan data menggunakan Array/List.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Indeks Array (dimulai dari 0).</li><li>Deklarasi & Inisialisasi: `fruits = ["apel", "jeruk"]`</li><li>Mengakses (`fruits[0]`), Menambah (`.append()`), Menghapus (`.remove()`) elemen.</li></ul><h4>Aktivitas:</h4><p>Coding: Membuat program yang menyimpan daftar nama teman, lalu menampilkannya menggunakan `for` loop.</p>' },
+                    { topic: "Prototyping di Figma", focus: "Menghubungkan antar frame untuk membuat simulasi aplikasi.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu membuat prototipe interaktif sederhana dari desain mereka.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Mode Prototype di Figma.</li><li>Membuat koneksi (noodle) dari satu elemen ke frame lain.</li><li>Mengatur trigger (On Click) dan animasi (Instant, Dissolve).</li></ul><h4>Aktivitas:</h4><p>Membuat halaman kedua (misal: halaman home) dan menghubungkan tombol "Login" dari halaman login ke halaman home.</p>' },
+                    { topic: "Model TCP/IP", focus: "Membandingkan model TCP/IP dengan model OSI.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mengetahui model referensi yang lebih praktis dan digunakan secara luas di internet.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>4 Lapisan TCP/IP: Network Access, Internet, Transport, Application.</li><li>Memetakan lapisan TCP/IP ke lapisan OSI.</li></ul><h4>Aktivitas:</h4><p>Membuat tabel perbandingan antara lapisan OSI dan TCP/IP.</p>' }
                 ]
             },
             {
                 week: 14,
-                topics: [
-                    "Virtualisasi (Pengenalan VirtualBox)",
-                    "Fungsi/Method Sederhana",
-                    "Desain Ikon Sederhana",
-                    "Protokol Umum (HTTP, HTTPS, FTP)"
-                ],
-                focus: [
-                    "Teori tentang apa itu mesin virtual dan kegunaannya.",
-                    "Membuat fungsi terpisah untuk operasi penjumlahan/pengurangan.",
-                    "Membuat ikon sederhana (home, user) menggunakan shape di Figma.",
-                    "Menjelaskan fungsi dari protokol-protokol umum di internet."
+                sessions: [
+                    { topic: "Virtualisasi (Pengenalan VirtualBox)", focus: "Teori tentang apa itu mesin virtual dan kegunaannya.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa memahami konsep virtualisasi dan manfaatnya.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Apa itu Mesin Virtual (VM)? Komputer di dalam komputer.</li><li>Hypervisor (Tipe 1 & Tipe 2 seperti VirtualBox).</li><li>Kegunaan: Mencoba OS lain, testing software di lingkungan terisolasi.</li></ul><h4>Aktivitas:</h4><p>Demo instalasi dan menjalankan OS ringan (misal: Lubuntu) di dalam VirtualBox.</p>' },
+                    { topic: "Fungsi/Method Sederhana", focus: "Membuat fungsi terpisah untuk operasi penjumlahan/pengurangan.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa memahami konsep fungsi untuk membuat kode yang reusable dan terstruktur.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Sintaks `def nama_fungsi(): ...`</li><li>Konsep parameter dan argumen.</li><li>Keyword `return` untuk mengembalikan nilai.</li></ul><h4>Aktivitas:</h4><p>Refactoring program kalkulator: Membuat fungsi terpisah `tambah(a, b)`, `kurang(a, b)`, dll.</p>' },
+                    { topic: "Desain Ikon Sederhana", focus: "Membuat ikon sederhana (home, user) menggunakan shape di Figma.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu membuat aset grafis sederhana mereka sendiri.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Menggabungkan beberapa shape untuk membentuk ikon.</li><li>Menggunakan Union, Subtract selection.</li><li>Pentingnya konsistensi gaya ikon.</li></ul><h4>Aktivitas:</h4><p>Latihan membuat ikon "home" (persegi + segitiga) dan ikon "user" (lingkaran + setengah lingkaran).</p>' },
+                    { topic: "Protokol Umum (HTTP, HTTPS, FTP)", focus: "Menjelaskan fungsi dari protokol-protokol umum di internet.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mengetahui fungsi dari beberapa protokol fundamental di lapisan aplikasi.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>HTTP: Untuk browsing web.</li><li>HTTPS: Versi aman dari HTTP dengan enkripsi.</li><li>FTP: Untuk transfer file.</li><li>SMTP/POP3: Untuk email.</li></ul><h4>Aktivitas:</h4><p>Melihat `http://` atau `https://` di address bar browser dan mendiskusikan perbedaannya.</p>' }
                 ]
             },
             {
                 week: 15,
-                topics: [
-                    "Keamanan Komputer Dasar (Antivirus)",
-                    "Pengenalan Konsep OOP",
-                    "Proyek Akhir Desain",
-                    "Sharing File & Printer di LAN"
-                ],
-                focus: [
-                    "Pentingnya antivirus dan praktik browsing yang aman.",
-                    "Pengenalan konsep Class dan Object secara teori.",
-                    "Membuat desain UI untuk proyek akhir pemrograman.",
-                    "Praktik melakukan sharing folder dan printer di jaringan lab."
+                sessions: [
+                    { topic: "Keamanan Komputer Dasar (Antivirus)", focus: "Pentingnya antivirus dan praktik browsing yang aman.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa sadar akan ancaman keamanan dasar dan cara memitigasinya.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Jenis malware: Virus, Worm, Trojan, Ransomware.</li><li>Fungsi Antivirus & Firewall.</li><li>Tips aman: Jangan klik link sembarangan, gunakan password kuat.</li></ul><h4>Aktivitas:</h4><p>Diskusi studi kasus tentang serangan phishing atau ransomware yang pernah viral.</p>' },
+                    { topic: "Pengenalan Konsep OOP", focus: "Pengenalan konsep Class dan Object secara teori.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mendapatkan gambaran awal tentang paradigma Object-Oriented Programming.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Analogi Class sebagai "cetakan kue" dan Object sebagai "kuenya".</li><li>Atribut (data) dan Method (perilaku).</li><li>Contoh: Class `Mobil` punya atribut `warna` dan method `maju()`.</li></ul><h4>Aktivitas:</h4><p>Diskusi: Mengidentifikasi object, atribut, dan method dari benda-benda di sekitar kelas.</p>' },
+                    { topic: "Proyek Akhir Desain", focus: "Membuat desain UI untuk proyek akhir pemrograman.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu merancang antarmuka untuk sebuah aplikasi sederhana secara mandiri.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Menerapkan semua prinsip desain yang telah dipelajari.</li><li>Membuat beberapa halaman (misal: halaman utama, halaman input data, halaman output).</li></ul><h4>Aktivitas:</h4><p>Siswa mulai mengerjakan proyek akhir desain mereka, misal UI untuk program kasir sederhana.</p>' },
+                    { topic: "Sharing File & Printer di LAN", focus: "Praktik melakukan sharing folder dan printer di jaringan lab.", details: '<h4>Tujuan Pembelajaran:</h4><p>Siswa mampu memanfaatkan jaringan lokal untuk berbagi sumber daya.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Cara share folder di Windows (Properties -> Sharing).</li><li>Mengatur permission (Read-Only vs Read/Write).</li><li>Cara mengakses folder yang di-share dari komputer lain.</li></ul><h4>Aktivitas:</h4><p>Praktik langsung: Siswa A men-share folder, Siswa B mencoba mengakses dan menyimpan file di dalamnya.</p>' }
                 ]
             },
             {
                 week: 16,
-                topics: [
-                    "Review Blok Sistem Komputer",
-                    "Review Blok Pemrograman",
-                    "Review Blok Desain Grafis",
-                    "Review Blok Jaringan Dasar"
-                ],
-                focus: [
-                    "Tanya jawab dan rangkuman materi Sistem Komputer.",
-                    "Latihan soal dan rangkuman materi Pemrograman.",
-                    "Presentasi proyek desain dan rangkuman materi.",
-                    "Tanya jawab dan rangkuman materi Jaringan."
+                sessions: [
+                    { topic: "Review Blok Sistem Komputer", focus: "Tanya jawab dan rangkuman materi Sistem Komputer.", details: '<h4>Tujuan Pembelajaran:</h4><p>Memperkuat kembali pemahaman siswa tentang seluruh materi Sistem Komputer.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Dari komponen hingga troubleshooting.</li></ul><h4>Aktivitas:</h4><p>Kuis cepat menggunakan platform seperti Kahoot! atau kuis lisan.</p>' },
+                    { topic: "Review Blok Pemrograman", focus: "Latihan soal dan rangkuman materi Pemrograman.", details: '<h4>Tujuan Pembelajaran:</h4><p>Memperkuat kembali pemahaman siswa tentang seluruh materi Pemrograman Dasar.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Dari algoritma hingga array dan fungsi.</li></ul><h4>Aktivitas:</h4><p>Memberikan beberapa soal latihan coding untuk dikerjakan bersama.</p>' },
+                    { topic: "Review Blok Desain Grafis", focus: "Presentasi proyek desain dan rangkuman materi.", details: '<h4>Tujuan Pembelajaran:</h4><p>Memperkuat kembali pemahaman siswa tentang seluruh materi Desain Grafis.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Dari prinsip desain hingga prototyping.</li></ul><h4>Aktivitas:</h4><p>Beberapa siswa mempresentasikan hasil proyek akhir desain mereka di depan kelas.</p>' },
+                    { topic: "Review Blok Jaringan Dasar", focus: "Tanya jawab dan rangkuman materi Jaringan.", details: '<h4>Tujuan Pembelajaran:</h4><p>Memperkuat kembali pemahaman siswa tentang seluruh materi Jaringan Dasar.</p><h4>Materi Inti:</h4><ul class="list-disc list-inside"><li>Dari topologi hingga praktik crimping.</li></ul><h4>Aktivitas:</h4><p>Sesi tanya jawab bebas dan persiapan untuk Ujian Akhir Semester.</p>' }
                 ]
             }
         ];
 
-        const container = document.querySelector('.space-y-12');
-        const template = document.querySelector('.week-template');
-        container.removeChild(template); // Hapus template awal
+        const container = document.getElementById('schedule-container');
+        const iconList = ["cpu", "brain-circuit", "palette", "network"];
+        const colorList = ["sky", "teal", "violet", "amber"];
 
-        schedule.forEach(weekData => {
-            const weekClone = template.cloneNode(true);
-            weekClone.querySelector('.week-number').textContent = weekData.week;
+        // Fungsi untuk membuat kartu materi
+        function createCard(week, sessionIndex, sessionData) {
+            const card = document.createElement('div');
+            card.className = `bg-slate-800/50 p-5 rounded-xl border border-${colorList[sessionIndex]}-800 flex flex-col`;
+            card.innerHTML = `
+                <div class="flex items-center gap-3 mb-3">
+                    <i data-lucide="${iconList[sessionIndex]}" class="w-8 h-8 text-${colorList[sessionIndex]}-400 flex-shrink-0"></i>
+                    <div>
+                        <h3 class="font-bold text-white">${['Sistem Komputer', 'Pemrograman Dasar', 'Dasar Desain Grafis', 'Jaringan Dasar'][sessionIndex]}</h3>
+                        <p class="text-xs text-${colorList[sessionIndex]}-400">Jam ke-${sessionIndex + 1}</p>
+                    </div>
+                </div>
+                <div class="flex-grow">
+                    <h4 class="font-semibold mb-2">Topik: ${sessionData.topic}</h4>
+                    <p class="text-sm text-slate-300">${sessionData.focus}</p>
+                </div>
+                <button class="detail-btn mt-4 w-full text-sm bg-${colorList[sessionIndex]}-500/20 text-${colorList[sessionIndex]}-300 hover:bg-${colorList[sessionIndex]}-500/40 hover:text-white font-semibold py-2 px-4 rounded-lg transition-colors" data-week="${week}" data-session="${sessionIndex}">
+                    Lihat Detail
+                </button>
+            `;
+            return card;
+        }
+
+        // Generate Jadwal
+        function renderSchedule() {
+            schedule.forEach(weekData => {
+                const weekContainer = document.createElement('div');
+                weekContainer.innerHTML = `
+                    <div class="week-divider py-4 mb-8">
+                        <h2 class="text-2xl md:text-3xl font-bold text-white text-center">Minggu ${weekData.week}</h2>
+                    </div>
+                `;
+                const grid = document.createElement('div');
+                grid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6';
+                
+                weekData.sessions.forEach((session, index) => {
+                    grid.appendChild(createCard(weekData.week, index, session));
+                });
+
+                weekContainer.appendChild(grid);
+                container.appendChild(weekContainer);
+            });
+            lucide.createIcons();
+        }
+        
+        // Modal Logic
+        const modal = document.getElementById('detail-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalSubtitle = document.getElementById('modal-subtitle');
+        const modalBody = document.getElementById('modal-body');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        function openModal(week, sessionIndex) {
+            const sessionData = schedule.find(w => w.week === week).sessions[sessionIndex];
+            const sessionTitle = ['Sistem Komputer', 'Pemrograman Dasar', 'Dasar Desain Grafis', 'Jaringan Dasar'][sessionIndex];
+
+            modalTitle.textContent = sessionData.topic;
+            modalSubtitle.textContent = `Minggu ${week} - ${sessionTitle}`;
+            modalBody.innerHTML = sessionData.details;
             
-            const topicCards = weekClone.querySelectorAll('.grid > div');
-            
-            topicCards.forEach((card, index) => {
-                card.querySelector('h4').textContent = `Topik: ${weekData.topics[index]}`;
-                card.querySelector('p:last-child').textContent = weekData.focus[index];
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.querySelector('.modal-content').classList.remove('scale-95');
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.querySelector('.modal-content').classList.add('scale-95');
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSchedule();
+
+            container.addEventListener('click', function(e) {
+                const button = e.target.closest('.detail-btn');
+                if (button) {
+                    const week = parseInt(button.dataset.week);
+                    const sessionIndex = parseInt(button.dataset.session);
+                    openModal(week, sessionIndex);
+                }
             });
 
-            container.appendChild(weekClone);
+            closeModalBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+            });
         });
-        
-        // Inisialisasi Lucide Icons
-        lucide.createIcons();
+
     </script>
 
 </body>
